@@ -1,0 +1,92 @@
+Exercício 04:
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    Note right of browser: O navegador começa a executar o código JavaScript que busca o JSON do servidor
+
+    
+    browser->>browser: Usuário clicou no botão Submit
+    Note right of browser: Envio da nova nota via comando POST
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/notes
+    browser->>server:[{ "content": "Minha nova nota será essa aqui!", "date": "2025-4-8" }]
+    activate server
+    server-->>browser: Nova Nota
+    server-->>browser: {"message": "Nova nota acrescentada!" }
+    deactivate server
+    Note left of server: O usuário já incluiu a nova nota!
+
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: função callback
+    server-->>browser: [{ "content": "Minha nova nota será essa aqui!", "date": "2025-4-8" }, ... ]
+    deactivate server
+
+    Note right of browser: O navegador executa a função callback (função de retorno de chamada) que renderiza as notas
+
+Exercício 05:
+sequenceDiagram
+    participant Browser
+    participant Server
+
+
+    Browser->>Server: Acessa https://studies.cs.helsinki.fi/exampleapp/spa
+    activate Server
+    Server-->>Browser: HTML, CSS e JS
+    deactivate Server
+    Note right of Browser: Carregar a página em HTML, CSS e JS
+
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/spa.json
+    activate Server
+    Server-->>Browser: Dados JSON
+    deactivate Server
+    Note right of Browser: Pegar os dados do JSON
+
+
+    Browser->>Browser: Atualiza a interface com os dados recebidos
+
+
+Exercício 06:
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Server
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate Server
+    Server-->>Browser: HTML, CSS e JS
+    deactivate Server
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/spa.json
+    activate Server
+    Server-->>Browser: Dados JSON das notas adicionadas
+    deactivate Server
+
+    User->>Browser: Preenche a nova nota e clica no botão Submit
+    Note right of User: Envio da nova nota via comando POST
+
+    Browser->>Server: POST https://studies.cs.helsinki.fi/exampleapp/notes 
+    Browser->>Server: [{ "content": "Nova nota do user com SPA", "date": "2025-4-8" }]
+    activate Server
+    Server-->>Browser: { "message": "Nova nota criada com sucesso!" }
+    deactivate Server
+
+    Browser->>Browser: Atualiza a interface com a nova nota
